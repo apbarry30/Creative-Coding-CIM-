@@ -47,4 +47,4 @@ takes x, y, and width and height
 
 rectangle position (20.20)- bases off the upper left hand corner
 10 pixels x 10 pixels will be drawn based off of your point
-(10 across and 10 down)
+(10 across and 10 down) then width and height
