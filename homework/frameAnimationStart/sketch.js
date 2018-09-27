@@ -12,7 +12,7 @@ function preload(){
   //frameArray[0] = loadImage(frameString);
 
   for(var frames = 0; frames < frameAmounts; frames ++ ){
-    var frameString = "assests/Thatwasclose0.jpg" + frames + ".jpg";
+    var frameString = "assests/Thatwasclose" + frames + ".jpg";
     //string representing path where the image is on our computer
     frameArray[frames] = loadImage(frameString);
     //new path to image, loads it to corresponding place in array
@@ -34,7 +34,7 @@ function draw(){
   if(millis()- prevMillis > interval) {
     currentFrame ++;
     prevMillis = millis();
-    //save state where last ran and resets 
+    //save state where last ran and resets
   }
 
   //console.log(currentFrame);
