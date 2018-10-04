@@ -12,13 +12,16 @@ var counter = 0;
 
 var controls= {
       "play": [50,400,50,"green"],
-      "stop":[110,400,50,"red"],
-      "fwd": [160,400,50,"blue"],
-      "back": [230,400,50,"yellow"],
+      "stop":[110,400,50,"red"]
 
 };
 //var {"key": [values] , "key": [values], }
 //x,y,size,color
+var buttons = {
+  "forward":[40,300,70, "blue"],
+  "back":[100,300,70, "blue"]
+
+};
 
 var state = "stop"
 
@@ -91,7 +94,7 @@ ellipse (counter, height/2, 20,20);
        fill(127,200);
        rect (controls[keys][0], controls[keys][1],
          controls [keys][2], controls[keys][2]);
-       //greys out when its not hovered over: overlay
+       //greys out when its not hovered over
 
      }
 
@@ -106,25 +109,21 @@ function mousePressed (){
 
       state = keys;
       //if key is true, state/key = play
-      console.log(state);
-      if(state=="fwd"){
-        currentFrame++;
-        //whenever counting through arrays, assume there needs to be an if statement to check if your over the counter at any point
-        if(currentFrame >= frameArray.length){
-          currentFrame =0;
-        }
-      } else if (state=="back"){
-        currentFrame--;
-        if(currentFrame<0){
-          currentFrame = frameArray.length-1;
-        }
-
-      }
     }
 //if statement checking if the key is forward or back. if one of those, advance the frame
   }
 }
 
+
+function draw(){
+  if (mouseX> buttons [keys][0] && mouseX < buttons[keys][0]+ buttons[keys][2]
+  && mouseY > buttons [keys][1] && mouseY < buttons [keys][1]+controls [keys][2]){
+    fill(127,200);
+    rect (buttons[keys][0], buttons[keys][1],
+      buttons [keys][2], buttons[keys][2]);
+
+  }
+}
 
 //end
 
