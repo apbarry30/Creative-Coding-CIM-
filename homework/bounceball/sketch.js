@@ -1,9 +1,10 @@
 var xPos =0;
-var yPos = 0;
+var yPos = 100;
 var ballSize = 20;
 
 var trigger= false;
 var speed= 5;
+var trigger2 = false;
 
 function setup() {
   createCanvas(500,500);
@@ -21,6 +22,12 @@ function draw() {
     yPos -=speed;
   }
 
+if(trigger2 == false) {
+  xPos +- speed;
+} else{
+  xPos -= speed;
+}
+
 if(yPos>height) {
   trigger=true;
   }
@@ -29,4 +36,11 @@ if(yPos>height) {
       trigger = false;
     }//need a trigger when you reach this point, flip my statement in the opposite directoin
 
+    if(xPos > width){
+      trigger2= true;
+    }
+
+    if(xPos < 0) {
+      trigger2= false ;
+    }
 }
