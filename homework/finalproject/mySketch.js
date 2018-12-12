@@ -4,7 +4,6 @@ var isDead = false;
 var start, respawn, foodCollide, info, back;
 var score = 0;
 
-var sky;
 var hawk;
 
 var cat;
@@ -12,6 +11,13 @@ var mouse;
 
 
 var rabbit;
+var carrot;
+
+var currentPlayer;
+
+var currentEating;
+
+var soundFile;
 var grass;
 
 
@@ -50,18 +56,34 @@ var resetPos = function() {
 
 //----------------------------------------------
 function preload(){
-	sky= loadImage ('');
-	hawk =loadImage ('');
-	cat =loadImage ('');
-	mouse =loadImage ('');
-	bunny = loadImage ('');
-	grass = loadImage ('');
+
+	hawk =loadImage ('assets/hawk.png');
+	cat =loadImage ('assets/cat.png');
+	mouse =loadImage ('assets/mouse.png');
+	 rabbit = loadImage ('assets/bunny.png');
+	 carrot = loadImage ('assets/carrot.png')
+	food = loadImage ('assets/mouse.png');
+	font = loadFont ('assets/knewave.ttf');
+	soundFile = loadSound('assets/Hawk-sound.mp3');
+	grass= loadImage ('assets/grass.png');
+
+
+	//loadImage(grass)
+}
+// for hovering
+//image (cat, 25,50,50,50);
+//image (rabbit, 25,110,50,50);
+function setup(){
+	button1 = new interfaces(100,200,50,"red", "Red Button");
+  button2 = new interfaces(200,200, 50, "green", "Green Button");
+
 }
 
 function mousePressed() {
 	start = collidePointRect(mouseX, mouseY, 200, 130, 200, 100);
 	if (play === 0 && start === true) {
 		play = 1;
+
 
 	}
 	respawn = collidePointRect(mouseX, mouseY, 175, 150, 220, 70);
@@ -80,59 +102,109 @@ function mousePressed() {
 		play = 0;
 	}
 
+	if(collidePointRect(mouseX, mouseY, 25, 50, 50, 50)){
+
+		currentPlayer = cat;
+		currentEating = mouse;
+
+	}
+
+	if(collidePointRect(mouseX, mouseY, 25, 110, 50, 50)){
+		currentPlayer = rabbit;
+		currentEating = carrot;
+
+
+
+
+	}
+
+
+	//if (mouseX >=25 && mouseX< 75 && mouseY >= 100 && mouseY< 150 ){
+		//play = 1;
+		//player = bunny;}
+
+	/*if (mouseX >= 25 && mouseX <75 && mouseY >=110 && mouseY < 150){
+		background ("lightblue");
+	} */
+
 }
+
 
 
 function setup() {
 	createCanvas(600, 400);
-	food.x = random(10, 590);
+	food.x = random(20, 590);
 	food.y = random(10, 390);
 }
 
 //-----------------------------------------------
 
 function draw() {
-	background(sky);
+
+
+	textFont(font);
+	strokeWeight(1);
+	//change background
+	background("white");
+
+
 	stroke(0);
 	strokeWeight(10);
 	fill(255);
 	rect(0, 0, 600, 400);
-	//this will set the speed of the dot and the player related to the points
+
+	//speed of hawk and player
 	player.speed = 20 + score / 4;
 	monster.speed = 1 + score / 4;
 
 
-	//this is what happens when the player and the dot of death hit eachother
+	//when hawk gets cat
 	if (isDead === true) {
+soundFile.play();
 		play = 2;
 		isDead = false;
 		resetPos();
-
 
 	}
 
 
 
 
-
-
 	if (play === 1) {
-		fill("orange");
-		strokeWeight(1);
+
+		//strokeWeight(1);
+		//rect (25,50, 50, 50);
+		//rect (25, 110, 50, 50);
+		//fill ("black");
+		//strokeWeight(0);
+		//textSize(15);
+
+
+
+		//fill("blue");
+		//strokeWeight(1);
+
+
+
 
 		//keeps it's X equal with mouse X
 		for (var i = 0; i < player.speed; i++) {
-			//first thing checks to see if the dot dies
+			//first thing checks to see if player dies
 			death = collideCircleCircle(monster.x, monster.y, 40, player.x, player.y, 20);
 			if (death === true) {
 				isDead = true;
+
+				//
+
 			}
 
-			// this is some stuff about the dot.
-			fill(random(0, 255), random(0, 255), random(0, 255));
-			ellipse(food.x, food.y, 10, 10);
+background(grass);
+			//image(food, food.x, food.y, 25, 25,);
+			image(currentEating, food.x, food.y, 25, 25,);
+
+
 			// if the player hits the food...
-			foodCollide = collideCircleCircle(player.x, player.y, 20, food.x, food.y, 10);
+			foodCollide = collideCircleCircle(player.x, player.y, 20, food.x, food.y, 20);
 			if (foodCollide === true) {
 				food.x = random(10, 590);
 				food.y = random(10, 390);
@@ -157,12 +229,12 @@ function draw() {
 				player.y += 1
 			}
 		}
-
-		fill("orange");
+		strokeWeight(0);
+		fill("blue");
 		textSize(30);
 		text("Score: " + score, 10, 30);
-		ellipse(player.x, player.y, 20, 20);
-		//the evil dot... moves the monster
+		image(currentPlayer, player.x, player.y, 25, 25);
+		//the player moves the monster
 		for (var q = 0; q < monster.speed; q++) {
 
 
@@ -186,67 +258,113 @@ function draw() {
 		}
 
 
-		fill("red");
+
 		strokeWeight(4);
 		stroke(163, 31, 31);
-		ellipse(monster.x, monster.y, 40, 40);
+		image(hawk, monster.x, monster.y, 30, 30);
 
 
-	}
 
-	//---------------------------------------------------------------------------
-
+}
+//
 	if (play === 0) {
+		rabbit.overlay=false;
+			//---------------------------------------------------------------------------
+
+		strokeWeight(0);
+		rect (25,50, 50, 50);
+		rect (25, 110, 50, 50);
+		fill ("black");
+		strokeWeight(0);
+		textSize(15);
+		text("choose character:", 10, 40);
+
+		//overlay
+
+		text ("cat", 80, 75);
+		text ("bunny", 80,150 );
+		image (cat, 25,50,50,50);
+		image (rabbit, 25,110,50,50);
+
 		fill(66, 244, 95);
 		strokeWeight(1);
-		noStroke();
-		rect(200, 130, 200, 100);
+
+		rect(205, 130, 200, 100);
 		stroke(0);
 		fill(0);
-		textSize(75);
-		text("Play!", 210, 210);
+		textSize(60);
+		text("START", 220, 210);
+		textSize(40);
+		text ("Eat or be Eaten!", 150,70);
+
+		//text("Run away from the hawk.", 10, 30);
+
+		strokeWeight(0);
 		textSize(25);
-		//text("Info: Keep your mouse inside of the box! \nRun away from the monster (The red dot).", 10, 30);
 		text("By Amanda Barry", 10, 380);
-		//the info box
-		strokeWeight(2);
-		fill("lightblue");
+		//the instuction box
+		strokeWeight(1);
+		fill("grey");
 		rect(490, 20, 100, 100);
 		textSize(15);
-		text("Instructions", 500, 85);
+		fill("black");
+		strokeWeight(0);
+		text("Instructions", 500, 80);
 
 	}
 
-	//--------------------------------------------------------------------------------
+
 
 	if (play === 2) {
+		//soundFile.play();
+
+
+
+	//	strokeWeight(1);
+	//	rect (25,50, 50, 50);
+	//	rect (25, 110, 50, 50);
+//	background (grass);
+		fill ("black");
+		strokeWeight(0);
+		textSize(15);
+		text( "choose character:", 20, 40);
+		text ("cat", 80, 75);
+		text ("bunny", 80,150 );
+		image (cat, 25,50,50,50);
+		image (rabbit, 25,110,50,50);
+
 		textSize(50);
-		strokeWeight(3);
+		strokeWeight(1);
 		fill('red');
-		text("You lose!", 190, 100);
+		text("You lose!", 200, 100);
 		//restart button..
-		fill(7, 186, 61);
-		rect(175, 150, 220, 70);
-		fill("blue");
+		fill(66, 244, 95);
+		rect(175, 150, 250, 70);
+		fill("black");
+		textSize (25);
+		text ("Eat or be Eaten!", 210,30);
 		textSize(50);
-		text("Restart.", 200, 200);
+
+		text("RESTART", 200, 200);
 
 		//shows how many points that you got
 		fill("black");
 		textSize(30);
 		noStroke();
-		text("You got: " + score + " point(s)", 190, 300)
+		text("SCORE: " + score + " point(s)", 190, 300)
 
 	}
 
+
 	if (play === 3) {
+
 		textSize(50);
 		text("Instructions:", 175, 60);
-		//the text below...
+		//text below
 		textSize(20);
 		noStroke();
 		fill('black');
-		text("You are the orange dot and you need to avoid the evil red dot. \nTo do this you need to move your mouse, but don't go too fast. \nCollect the rainbow dots to earn points, but the more points that \nyou have the faster that the game will let you move and the \nfaster that the evil dot will move.", 20, 100);
+		text("1. Choose your Character \n2. Collect the food to earn points. \n3. To do this you need to move your mouse\n but don't go too fast because the more points you have, \nthe faster that you and the hawk will move.", 20, 100);
 		//the back button
 		stroke(0);
 		strokeWeight(5);
