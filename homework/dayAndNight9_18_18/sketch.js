@@ -36,6 +36,7 @@ textInput.position (10,30);
 
 submitButton = createButton("Create Pattern");
 submitButton.position(10,50);
+
 submitButton.mousePressed(function(){
   numberOfImages = textInput.value();
   console.log (numberOfImages);
@@ -49,7 +50,7 @@ submitButton.mousePressed(function(){
 
   posX = [];
   posY= [];
-  //resetting and emptying array to use again.clearing and adding to position. 
+  //resetting and emptying array to use again.clearing and adding to position.
   for (var a = 0; a < numberOfImages; a ++ ){
     posX [a] = random(width);
     posY [a] = random(height);
