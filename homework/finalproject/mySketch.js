@@ -76,16 +76,30 @@ function preload(){
 function setup(){
 	button1 = new interfaces(100,200,50,"red", "Red Button");
   button2 = new interfaces(200,200, 50, "green", "Green Button");
-
 }
 
+// function mousePressed() {
+// 	if((currentPlayer == cat) || (currentPlayer == rabbit) ){
+// 	start = collidePointRect(mouseX, mouseY, 200, 130, 200, 100);
+// 	if (play === 0 && start === true) {
+// 		// play = 1;
+// 		play = 1;
+// 	}
+// } else {
+// 		//trigger instruction or let people know
+// }
+
 function mousePressed() {
+	if((currentPlayer == cat) || (currentPlayer == rabbit)){
 	start = collidePointRect(mouseX, mouseY, 200, 130, 200, 100);
-	if (play === 0 && start === true) {
+
+	// if (play === 0 && start === true){
+		// play = 1;
 		play = 1;
+// 	}else {
+// 	play =3;
+		}
 
-
-	}
 	respawn = collidePointRect(mouseX, mouseY, 175, 150, 220, 70);
 	if (play === 2 && respawn === true) {
 		play = 1;
@@ -112,11 +126,9 @@ function mousePressed() {
 	if(collidePointRect(mouseX, mouseY, 25, 110, 50, 50)){
 		currentPlayer = rabbit;
 		currentEating = carrot;
-
-
-
-
 	}
+
+
 
 
 	//if (mouseX >=25 && mouseX< 75 && mouseY >= 100 && mouseY< 150 ){
@@ -373,7 +385,7 @@ background(grass);
 		noStroke();
 		fill(0);
 		textSize(55);
-		text("Back", 410, 360);
+		var back = text("Back", 410, 360);
 	}
 
 }
